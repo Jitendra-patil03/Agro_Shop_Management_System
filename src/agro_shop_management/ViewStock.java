@@ -7,6 +7,7 @@ package agro_shop_management;
 
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,25 +47,26 @@ public class ViewStock extends javax.swing.JFrame {
         ShowData.setBackground(new java.awt.Color(153, 153, 255));
         ShowData.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         ShowData.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        ShowData.setForeground(new java.awt.Color(204, 204, 204));
+        ShowData.setForeground(new java.awt.Color(255, 51, 51));
         ShowData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Product Name", "Seller Name", "Batch No", "Quantity", "Date"
+                "Product Id", "Product Name", "Dealer Name", "Batch No", "Quantity", "Date", "Rate"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        ShowData.setCellSelectionEnabled(true);
+        ShowData.setColumnSelectionAllowed(false);
         ShowData.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ShowData.setSelectionForeground(new java.awt.Color(204, 0, 0));
         jScrollPane1.setViewportView(ShowData);
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 204));
@@ -114,19 +116,17 @@ public class ViewStock extends javax.swing.JFrame {
      */
   private void show_stock(){
        try{
-            Agro_Shop_Management obj = new Agro_Shop_Management();
-            obj.Connection();
             DefaultTableModel model = (DefaultTableModel) ShowData.getModel();
             model.setRowCount(0);
             String sql ="Select * from Stock";
-            ResultSet rs = obj.st.executeQuery(sql);
+            ResultSet rs = Agro_Shop_Management.getSt().executeQuery(sql);
             while(rs.next()){
-                Object o[]={rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5)};
+                Object o[]={rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)};
                 model.addRow(o);
+        //    System.out.println(Arrays.toString(o));
             } 
-             obj.st.close();
-             obj.con.close();
-             obj = null;
+         
+            
         } catch(Exception e) {
          System.out.println("Exception 2: "+e);
             JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");

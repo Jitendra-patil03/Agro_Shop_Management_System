@@ -341,17 +341,17 @@ public class Forget_pass extends javax.swing.JFrame {
     private void GetPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetPassActionPerformed
         // TODO add your handling code here:
         try{
-            Agro_Shop_Management obj1 = new Agro_Shop_Management();
-            obj1.Connection();
+           
             String u = userName_forget.getText();
             String s = security_forget.getText();
             String i = idNo_forget.getText();
             String query ="select Password from UserDetails where Username =? and IdNo =? and Security_code =?";
-            obj1.ps = obj1.con.prepareStatement(query);
-            obj1.ps.setString(1, u);
-            obj1.ps.setString(2, i);
-            obj1.ps.setString(3, s);
-            ResultSet rs = obj1.ps.executeQuery();
+            Agro_Shop_Management.setPs( Agro_Shop_Management.getCon().prepareStatement(query));
+            PreparedStatement ps =  Agro_Shop_Management.getPs();
+            ps.setString(1, u);
+            ps.setString(2, i);
+            ps.setString(3, s);
+            ResultSet rs = ps.executeQuery();
 
             
             if(rs.next()){
@@ -365,9 +365,8 @@ public class Forget_pass extends javax.swing.JFrame {
                     
                    JOptionPane.showMessageDialog(null,"incorrect details");
             }
-               obj1.ps.close();
-               obj1.con.close();
-            obj1 = null;  
+               ps.close();
+               ps = null;
             
            } catch(SQLException | HeadlessException e){
                 System.out.println("Ex plz contact Developer  :"+e);
@@ -406,17 +405,12 @@ public class Forget_pass extends javax.swing.JFrame {
             }
             
             if(autho==3699){
-                Agro_Shop_Management obj2 = new Agro_Shop_Management();
-                obj2.Connection();
                 String query = "insert into UserDetails values('"+user+"','"+pass+"','"+id+"','"+id_no+"','"+mo+"','"+user_type+"','"+Se+"')";
                  
-               if(obj2.st.executeUpdate(query)>0)
+               if( Agro_Shop_Management.getSt().executeUpdate(query)>0)
                 JOptionPane.showMessageDialog(null,"value inserted");
                else
                    JOptionPane.showMessageDialog(null, "Invaild details");
-                obj2.st.close();
-                    obj2.con.close();
-                    obj2=null;
             } else {
                 JOptionPane.showMessageDialog(null,"Invaild Authority code");
             }

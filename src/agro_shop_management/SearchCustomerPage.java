@@ -41,6 +41,14 @@ public class SearchCustomerPage extends javax.swing.JFrame {
         Search = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         showDetails = new javax.swing.JTable();
+        BillNoLabel1 = new javax.swing.JLabel();
+        custName = new javax.swing.JTextField();
+        BillNoLabel2 = new javax.swing.JLabel();
+        Date = new javax.swing.JTextField();
+        BillNoLabel3 = new javax.swing.JLabel();
+        custMobile = new javax.swing.JTextField();
+        BillNoLabel4 = new javax.swing.JLabel();
+        totalAmount = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -49,7 +57,7 @@ public class SearchCustomerPage extends javax.swing.JFrame {
 
         BillNoLabel.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
         BillNoLabel.setForeground(new java.awt.Color(0, 51, 51));
-        BillNoLabel.setText("Enter Bill no");
+        BillNoLabel.setText("CustomerName");
 
         TakeBillNo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         TakeBillNo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -69,11 +77,11 @@ public class SearchCustomerPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Bill no", "Name", "MobileNO", "Products", "ProductId", "BatchNo", "Quantities", "Rates", "Total", "Date"
+                "ProductId", "ProductName", "BatchNo", "quantity", "Rate"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -82,32 +90,114 @@ public class SearchCustomerPage extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(showDetails);
 
+        BillNoLabel1.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        BillNoLabel1.setForeground(new java.awt.Color(0, 51, 51));
+        BillNoLabel1.setText("Enter Bill no");
+
+        custName.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        custName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                custNameActionPerformed(evt);
+            }
+        });
+
+        BillNoLabel2.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        BillNoLabel2.setForeground(new java.awt.Color(0, 51, 51));
+        BillNoLabel2.setText("Date");
+
+        Date.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        Date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DateActionPerformed(evt);
+            }
+        });
+
+        BillNoLabel3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        BillNoLabel3.setForeground(new java.awt.Color(0, 51, 51));
+        BillNoLabel3.setText("TotalAmount");
+
+        custMobile.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        custMobile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                custMobileActionPerformed(evt);
+            }
+        });
+
+        BillNoLabel4.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        BillNoLabel4.setForeground(new java.awt.Color(0, 51, 51));
+        BillNoLabel4.setText("Mobile");
+
+        totalAmount.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        totalAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalAmountActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(BillNoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TakeBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(237, 237, 237)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TakeBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BillNoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(custName, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)
+                        .addComponent(BillNoLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(custMobile, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BillNoLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(BillNoLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(81, 81, 81)
+                    .addComponent(BillNoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(558, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BillNoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TakeBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(TakeBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
                 .addComponent(Search)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BillNoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(custName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BillNoLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(custMobile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BillNoLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGap(1, 1, 1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BillNoLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(45, 45, 45)
+                    .addComponent(BillNoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(347, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,35 +220,61 @@ public class SearchCustomerPage extends javax.swing.JFrame {
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
         // TODO add your handling code here:
         try{
-            Agro_Shop_Management obj = new Agro_Shop_Management();
-            obj.Connection();
             if(!TakeBillNo.getText().matches("[0-9]*")|| "".equals(TakeBillNo.getText())){
                 JOptionPane.showMessageDialog(null, "Plz enter vaild Bill no");
                 return;
             }
             int b =(int)Integer.parseInt(TakeBillNo.getText());
-            String sql="Select * from customerDetails, customerPurchase where CustomerDetails.billNo='"+b+"' and customerPurchase.billno='"+b+"'";
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select c.cust_name, c.mobile, b.bill_date, b.totalAmount from bill as b inner join customer as c on b.custid = c.custid where b.billno=?"));
+            Agro_Shop_Management.getPs().setInt(1, b);
+            ResultSet rs = Agro_Shop_Management.getPs().executeQuery();
+            if(rs.next()){
+                custName.setText(rs.getString(1));
+                custMobile.setText(rs.getString(2));
+                Date.setText(rs.getString(3));
+                totalAmount.setText(rs.getString(4));
+            }else {
+                    JOptionPane.showMessageDialog(null, "No record found");
+                    return;
+            }
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select s.productid, s.productName, s.batchno, p.quantity, s.per_pack_rate from stock as s inner join purchasedetails as p on p.productid = s.productid where p.billno = ?"));
             DefaultTableModel model = (DefaultTableModel) showDetails.getModel();
             model.setRowCount(0);
-            ResultSet rs = obj.st.executeQuery(sql);
+            Agro_Shop_Management.getPs().setInt(1, b);
+            rs = Agro_Shop_Management.getPs().executeQuery();
             boolean check=true;
             while(rs.next()){
-                         Object o[]= {rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(5), rs.getString(6),rs.getString(7), rs.getString(8), rs.getString(9),rs.getFloat(10), rs.getString(11)};
+                         Object o[]= {rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getString(5)};
                          model.addRow(o);
                          check = false;
-                         break;
+                        
             }
             if(check)
                 JOptionPane.showMessageDialog(null, "No record found");
            
-            obj = null;
-            sql = null;
+          
         } catch (NumberFormatException | SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(null," problem plz contact developer   "+e);
         
         }
         
     }//GEN-LAST:event_SearchActionPerformed
+
+    private void custNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_custNameActionPerformed
+
+    private void DateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DateActionPerformed
+
+    private void custMobileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custMobileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_custMobileActionPerformed
+
+    private void totalAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalAmountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalAmountActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,10 +286,18 @@ public class SearchCustomerPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BillNoLabel;
+    private javax.swing.JLabel BillNoLabel1;
+    private javax.swing.JLabel BillNoLabel2;
+    private javax.swing.JLabel BillNoLabel3;
+    private javax.swing.JLabel BillNoLabel4;
+    private javax.swing.JTextField Date;
     private javax.swing.JButton Search;
     private javax.swing.JTextField TakeBillNo;
+    private javax.swing.JTextField custMobile;
+    private javax.swing.JTextField custName;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable showDetails;
+    private javax.swing.JTextField totalAmount;
     // End of variables declaration//GEN-END:variables
 }

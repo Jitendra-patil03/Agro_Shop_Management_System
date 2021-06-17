@@ -7,12 +7,10 @@ package agro_shop_management;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
@@ -27,23 +25,30 @@ public class HomePage extends javax.swing.JFrame {
      String[5] name;
     */
     
-    String p_name = "";//for taking value of purchase details
-    String p_id = "";
-    String b_no = "";
-    String qun = "";
-    String rate = "";
+    @Override
+    public void finalize(){
+        System.out.println("Finalize called");
+        try {
+            Agro_Shop_Management.getCon().close();
+            //Agro_Shop_Management.getPs().close();
+            //Agro_Shop_Management.getSt().close();
+            Agro_Shop_Management.setPs(null);
+        } catch (SQLException ex) {
+           // Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+       
+    }
+    int qun = 0;
     int count = 0;
     float total = 0;
     boolean bt = true;
     
+    //Purchase details array to store how many product selected by customer
+    ArrayList<PurchaseDetail> purchaseDetails = new ArrayList<>();
     
    void setValue(){    
         //for set value if we not set this values then it give exception 
-        this.p_name = "";
-        this.p_id = "";
-        this.b_no = "";
-        this.qun = "";
-        this.rate = "";
         this.count = 0;
         this.total = 0;
         CustomerName.setText("");
@@ -69,17 +74,12 @@ public class HomePage extends javax.swing.JFrame {
     
     void addItemToBox(){ // this method fatch the item from the database and set it to jcomboBox(ProductName)
     try {
-             Agro_Shop_Management  obj1 = new Agro_Shop_Management();
-             obj1.Connection();
             
-        try (ResultSet rs = obj1.st.executeQuery("select * from productDetails")) {
+        try (ResultSet rs =  Agro_Shop_Management.getSt().executeQuery("select productName from stock")) {
             while(rs.next()){
-                ProductName.addItem(rs.getString(2));
+                ProductName.addItem(rs.getString(1));
             }
-            obj1.con.close();
-            obj1.st.close();
         }
-            obj1=null;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Exception plz contact the developer ex= "+ex);
         }
@@ -105,17 +105,11 @@ public class HomePage extends javax.swing.JFrame {
         CustomerMobile = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         TotalAmountText = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        ProductId = new javax.swing.JTextField();
-        BatchNo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         Quantity = new javax.swing.JTextField();
         AddProduct = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        Rate = new javax.swing.JTextField();
         NoOfProduct = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -173,19 +167,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Product Name");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(30, 40, 130, 30);
-
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Product id");
-        jPanel3.add(jLabel7);
-        jLabel7.setBounds(180, 50, 101, 14);
-
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Batch No");
-        jPanel3.add(jLabel8);
-        jLabel8.setBounds(290, 50, 101, 14);
+        jLabel6.setBounds(80, 30, 190, 30);
 
         TotalAmountText.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         TotalAmountText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -194,31 +176,16 @@ public class HomePage extends javax.swing.JFrame {
         jPanel3.add(jSeparator1);
         jSeparator1.setBounds(380, 150, 0, 2);
 
-        ProductId.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        ProductId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ProductId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProductIdActionPerformed(evt);
-            }
-        });
-        jPanel3.add(ProductId);
-        ProductId.setBounds(180, 80, 103, 30);
-
-        BatchNo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        BatchNo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel3.add(BatchNo);
-        BatchNo.setBounds(290, 80, 103, 30);
-
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Quantity");
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(400, 50, 101, 14);
+        jLabel10.setBounds(370, 40, 101, 14);
 
         Quantity.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         Quantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel3.add(Quantity);
-        Quantity.setBounds(410, 80, 103, 30);
+        Quantity.setBounds(380, 80, 103, 30);
 
         AddProduct.setBackground(new java.awt.Color(255, 153, 153));
         AddProduct.setForeground(new java.awt.Color(255, 102, 102));
@@ -229,23 +196,7 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         jPanel3.add(AddProduct);
-        AddProduct.setBounds(150, 150, 100, 23);
-
-        jLabel11.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Rate");
-        jPanel3.add(jLabel11);
-        jLabel11.setBounds(520, 50, 101, 14);
-
-        Rate.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        Rate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Rate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RateActionPerformed(evt);
-            }
-        });
-        jPanel3.add(Rate);
-        Rate.setBounds(520, 80, 103, 30);
+        AddProduct.setBounds(120, 160, 100, 23);
 
         NoOfProduct.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         NoOfProduct.setForeground(new java.awt.Color(204, 0, 0));
@@ -257,20 +208,20 @@ public class HomePage extends javax.swing.JFrame {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Total Amount ");
         jPanel3.add(jLabel13);
-        jLabel13.setBounds(420, 150, 90, 30);
+        jLabel13.setBounds(390, 150, 90, 30);
 
         jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("No of Product");
         jPanel3.add(jLabel14);
-        jLabel14.setBounds(420, 190, 101, 14);
+        jLabel14.setBounds(380, 190, 101, 14);
 
         ProductName.setBackground(new java.awt.Color(153, 153, 255));
         ProductName.setFont(new java.awt.Font("Times New Roman", 3, 12)); // NOI18N
         ProductName.setForeground(new java.awt.Color(204, 51, 0));
         ProductName.setMaximumRowCount(40);
         jPanel3.add(ProductName);
-        ProductName.setBounds(50, 80, 100, 30);
+        ProductName.setBounds(90, 80, 160, 30);
 
         SaveDetails.setBackground(new java.awt.Color(255, 102, 102));
         SaveDetails.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -467,10 +418,6 @@ public class HomePage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ProductIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProductIdActionPerformed
  
     private void SaveDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDetailsActionPerformed
         // TODO add your handling code here
@@ -487,75 +434,71 @@ public class HomePage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"plz enter all details properly");
             return ;
         }
-        PrintBill p = new PrintBill();
         
         try{
-            Agro_Shop_Management  obj1 = new Agro_Shop_Management();
-            obj1.Connection();
-            ResultSet rs = obj1.st.executeQuery("select Max(BillNo) from CustomerDetails");
-            int a = 1; // this is use for the auto bill increament
-            if(rs.next()){
-               a=rs.getInt(1);
-               a += 1;
-               String Name = CustomerName.getText();
-               String mobile = CustomerMobile.getText();
-               if(Name.equals("")|| mobile.equals("")){
-                    JOptionPane.showMessageDialog(null,"plz enter all details properly");
-               }
-               //System.out.println("a="+a+"Name="+Name+"mo="+mobile);
-                String queryOfInsert = "insert into customerDetails values(?, ?, ?)";
-                obj1.ps = obj1.con.prepareStatement(queryOfInsert);
-                obj1.ps.setInt(1, a);
-                obj1.ps.setString(2, Name);
-                obj1.ps.setString(3, mobile);
-                if(obj1.ps.executeUpdate()<=0){
-                   JOptionPane.showMessageDialog(null,"not inserted problem in add product");
-                } 
-                 p.dataFromHome(a,CustomerName.getText(),CustomerMobile.getText());
-            } else {
-                String Name = CustomerName.getText();
-                String mobile = CustomerMobile.getText();
-                if(Name.equals("")|| mobile.equals("")){
-                    JOptionPane.showMessageDialog(null,"plz enter all details properly");
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select custid, mobile from Customer where mobile = ?"));
+            Agro_Shop_Management.getPs().setString(1, CustomerMobile.getText());
+            int custid = 0;
+            try{
+                ResultSet rs =  Agro_Shop_Management.getPs().executeQuery();
+                if(rs.next()){
+                    custid = rs.getInt(1);
+                } else {
+                    Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("insert into customer(cust_name, mobile) values(?,?)"));
+                    Agro_Shop_Management.getPs().setString(1, CustomerName.getText());
+                    Agro_Shop_Management.getPs().setString(2, CustomerMobile.getText());
+                    System.out.println("Customer data: "+Agro_Shop_Management.getPs().executeUpdate());
+                    
+                    Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select custid from Customer where mobile = ?"));
+                    Agro_Shop_Management.getPs().setString(1, CustomerMobile.getText());
+                    rs =  Agro_Shop_Management.getPs().executeQuery();
+                    if(rs.next())
+                      custid = rs.getInt(1);
+                    
                 }
-                String queryOfInsert = "insert into customerDetails values(?, ?, ?)";
-                obj1.ps = obj1.con.prepareStatement(queryOfInsert);
-                obj1.ps.setInt(1, a);
-                obj1.ps.setString(2, Name);
-                obj1.ps.setString(3, mobile);
-                if(obj1.ps.executeUpdate()<=0){
-                   JOptionPane.showMessageDialog(null,"not inserted problem in add product");
-                } 
+            } catch(SQLException | NumberFormatException e){
+                   JOptionPane.showMessageDialog(null,e.getMessage());
+                   System.out.println(e.getMessage());
+                   return;
             }
-            if(this.count>0 && a>0){
-                 String c_date = ""+new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-//                 //System.out.println(c_date); 
-//                 "insert into customerpurchase values('"+a+"','"+p_name+"','"+p_id+"','"+b_no+"','"+qun+"','"+rate+"','"+total+"','"+c_date+"')"
-                 String query = "insert into customerpurchase values(?, ?, ?, ?, ?, ?, ?, ?)";
-                 
-                 obj1.ps = obj1.con.prepareStatement(query);
-                 obj1.ps.setInt(1, a);
-                 obj1.ps.setString(2, p_name);
-                 obj1.ps.setString(3, p_id);
-                 obj1.ps.setString(4, b_no);
-                 obj1.ps.setString(5, qun);
-                 obj1.ps.setString(6, rate);
-                 obj1.ps.setFloat(7, total);
-                 obj1.ps.setString(8, c_date);
-                 
-                 //System.out.println("pass 2");
-                 if(obj1.ps.executeUpdate()<=0){
-                       JOptionPane.showMessageDialog(null,"not inserted problem in add product");
-                 } 
-                 p.Product(p_name, p_id, b_no, qun, rate, total, c_date);
-                  
+            String c_date = ""+new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+            // Bill table update;
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("insert into bill(custid, bill_date, TotalAmount) values(?,?,?)"));
+            Agro_Shop_Management.getPs().setInt(1, custid);
+            Agro_Shop_Management.getPs().setString(2, c_date);
+            Agro_Shop_Management.getPs().setString(3, ""+total);
+            System.out.println("Bill details:"+ Agro_Shop_Management.getPs().executeUpdate());
+            // get bill number
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select max(billno) from bill where custid = ?"));
+            Agro_Shop_Management.getPs().setInt(1, custid);
+            ResultSet rs = Agro_Shop_Management.getPs().executeQuery();
+            int billno = 0;
+            if(rs.next())
+                billno = rs.getInt(1);
+            System.out.println("Bill Created with billno: "+ billno+" record updated: ");
+            
+            // purchase table details update
+            System.out.println("purchase array sixe: "+purchaseDetails.size());
+            for(int i = 0; i < purchaseDetails.size(); i++) {
+                Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("insert into purchaseDetails(billno, productid, quantity) values(?,?,?)"));
+                Agro_Shop_Management.getPs().setInt(1, billno);
+                Agro_Shop_Management.getPs().setInt(2, purchaseDetails.get(i).getProductId());
+                Agro_Shop_Management.getPs().setInt(3, purchaseDetails.get(i).getQuantity());
+                System.out.println((i+1)+" record  updated with : "+Agro_Shop_Management.getPs().executeUpdate());
+                
+                // decreament stock
+                Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("update stock set quantity = ? where productId = ?"));
+                Agro_Shop_Management.getPs().setInt(1, purchaseDetails.get(i).getStockQuantity() - purchaseDetails.get(i).getQuantity());
+                Agro_Shop_Management.getPs().setInt(2, purchaseDetails.get(i).getProductId());
+                System.out.println("Stock table :"+Agro_Shop_Management.getPs().executeUpdate());
+                
             }
+            PrintBill p = new PrintBill(CustomerName.getText(), CustomerMobile.getText(), billno, total);
+            p.GenerateBill();
             p.setVisible(true);
             setValue();
-            obj1.ps.close();
-            obj1.st.close();
-            obj1.con.close();
-            obj1=null;
+            purchaseDetails = new ArrayList<>();
+            Agro_Shop_Management.setPs(null);
         } catch(SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(null,"exception problem in software plz contact developer"+e);
             //System.out.println("ex- "+e);
@@ -566,49 +509,43 @@ public class HomePage extends javax.swing.JFrame {
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
         // TODO add your handling code here
         try{
-            if(ProductName.getSelectedItem().toString().equals("") || ProductId.getText().equals("")|| BatchNo.getText().equals("") || Quantity.getText().equals("") || Rate.getText().equals("")){
+            if(ProductName.getSelectedItem().toString().equals("") || Quantity.getText().equals("") ){
             JOptionPane.showMessageDialog(null,"plz enter all details properly");
             return ;
             }
-            int q =0;
+            int quantity =0;
             try{
-                q = Integer.parseInt(Quantity.getText());
+                quantity = Integer.parseInt(Quantity.getText());
             } catch(Exception e){
                JOptionPane.showMessageDialog(null, "Enter Quantity in number only");
                return;
             }
-            float r = 0;
-            try{
-                    r = Float.parseFloat(Rate.getText());
-            } catch(Exception e){
-                    JOptionPane.showMessageDialog(null, "Enter rate Value Properly");
-                    return;
-            }
+            
             this.bt = false; // it will refer to Save details
-            this.p_name += ProductName.getSelectedItem().toString()+", ";
-            this.p_id += ProductId.getText()+", ";
-            this.b_no += BatchNo.getText()+", ";
-            this.qun += Quantity.getText()+", ";
-            this.total += (r*q);
+            String p_name = ProductName.getSelectedItem().toString();
+            //this.qun += Quantity.getText()+", ";
+            ResultSet rs = Agro_Shop_Management.getSt().executeQuery("select productid, per_pack_rate, Quantity from stock where productName = '"+p_name+"'");
+            
+            if(rs.next() &&  quantity >= Integer.parseInt(rs.getString(3))){
+               JOptionPane.showMessageDialog(null, "Selected Product is out of stock only "+rs.getString(3)+" product remains.");
+               return;
+            }
+            this.total += quantity * Float.parseFloat(rs.getString(2));
+            
+            // add product to array of purchasedetails to use in save method;
+            purchaseDetails.add(new PurchaseDetail(rs.getInt(1),quantity,rs.getInt(3)));
+            
             TotalAmountText.setText(""+total);
-            this.rate += Rate.getText()+", ";
             this.count ++;
             NoOfProduct.setText(""+this.count);
-            ProductId.setText("");
-            BatchNo.setText("");
             Quantity.setText("");
-            Rate.setText("");
             //System.out.println(p_name+" "+p_id+" "+b_no+" "+qun+" "+total+" "+rate);
-        } catch(HeadlessException | NumberFormatException e){
+        } catch(HeadlessException | SQLException | NumberFormatException e){
              System.out.println(e);
         JOptionPane.showMessageDialog(null,"Exception plz contact developer ");
-        }
+        } 
         
     }//GEN-LAST:event_AddProductActionPerformed
-
-    private void RateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RateActionPerformed
 
     private void CustomerMobileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerMobileActionPerformed
         // TODO add your handling code here:
@@ -624,7 +561,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void CustomerDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerDetailsActionPerformed
         // TODO add your handling code here:
-          if(Agro_Shop_Management.userType.equals("owner")||Agro_Shop_Management.userType.toUpperCase().equals("OWNER")){
+          if(Agro_Shop_Management.getUserType().equals("owner")||Agro_Shop_Management.getUserType().toUpperCase().equals("OWNER")){
           java.awt.EventQueue.invokeLater(() -> {
               new SellDetailsPage().setVisible(true);
           });
@@ -653,6 +590,11 @@ public class HomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         LoginPage l= new LoginPage();
         l.setVisible(true);
+        try {
+            Agro_Shop_Management.getCon().close();
+        } catch (SQLException ex) {
+            System.out.println("Exption in log out"+ex.getMessage());
+        }
         this.dispose();
         
         
@@ -673,17 +615,14 @@ private void seticon() {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProduct;
-    private javax.swing.JTextField BatchNo;
     private javax.swing.JButton CustomerDetails;
     private javax.swing.JTextField CustomerMobile;
     private javax.swing.JTextField CustomerName;
     private javax.swing.JButton Edit_delete;
     private javax.swing.JButton Logout;
     private javax.swing.JLabel NoOfProduct;
-    private javax.swing.JTextField ProductId;
     private javax.swing.JComboBox<String> ProductName;
     private javax.swing.JTextField Quantity;
-    private javax.swing.JTextField Rate;
     private javax.swing.JButton SaveDetails;
     private javax.swing.JButton SearchCustomer;
     private javax.swing.JLabel TotalAmountText;
@@ -691,7 +630,6 @@ private void seticon() {
     private javax.swing.JButton ViewStock;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -699,8 +637,6 @@ private void seticon() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

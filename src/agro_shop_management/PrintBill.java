@@ -6,6 +6,12 @@
 package agro_shop_management;
 
 import java.awt.print.PrinterException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,18 +23,17 @@ public class PrintBill extends javax.swing.JFrame {
     /**
      * Creates new form PrintBill
      */
-    int billLocal ;
-    String C_name;
-    String mo;
-    String product_n;
-    String pId;
-    String BId;
-    String Q;
-    String R;
-    float Total_Amount;
-    String c_date;
-    public PrintBill() {
+    private final  int billNo ;
+    private final String customerName;
+    private final String mobile;
+    private final float totalAmount;
+    private String c_date;
+    public PrintBill(String name, String mobile, int billno, float total) {
         this.setResizable(false);
+        this.billNo = billno;
+        this.customerName = name;
+        this.mobile = mobile;
+        this.totalAmount = total;
         initComponents();
     }
 
@@ -38,34 +43,47 @@ public class PrintBill extends javax.swing.JFrame {
      * @param name
      * @param mobile
      */
-    void dataFromHome(int billNo,String name, String mobile ) {
-         this.billLocal = billNo;
-         this.C_name = name;
-         this.mo = mobile;
     
-    }
-    void Product(String p_name, String p_id, String B_id, String Quantity, String Rate, float Total, String date){
-            this.product_n = p_name;
-            this.pId = p_id;
-            this.BId = B_id;
-            this.Q = Quantity;
-            this.R = Rate;
-            this.Total_Amount = Total;
-            this.c_date = date;
-           GenerateBill(); 
-    } 
+     
     void GenerateBill(){
-        BillArea.setText("***************  Shree krushi Kendra ************\n");
+        BillArea.setText("*****************  Shree krushi Kendra ***************\n");
         BillArea.setText(BillArea.getText()+"           Burhanpur, Dist. Burhanpur(M.P)450331      \n\n");
-        BillArea.setText(BillArea.getText()+"Bill No : "+billLocal+"                                                                     Date: " +c_date+"\n");
-        BillArea.setText( BillArea.getText()+"Customer Name : "+C_name+" \n"+"Mobile : "+mo+"\n\n");
-        BillArea.setText( BillArea.getText()+"============================================================\n");
-        BillArea.setText( BillArea.getText()+"Product Names :  "+product_n+"\n");
-        BillArea.setText( BillArea.getText()+"Product Id    :  "+pId+"\n");
-        BillArea.setText( BillArea.getText()+"Batch no      :  "+BId+"\n");
-        BillArea.setText( BillArea.getText()+"Quantities    :  "+Q+"\n");
-        BillArea.setText( BillArea.getText()+"Rates         :  "+R+"\n");
-        BillArea.setText( BillArea.getText()+"TotalAmount   :  "+Total_Amount+"\ttax included\n");
+        c_date = ""+new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        BillArea.setText(BillArea.getText()+"Bill No : "+billNo+"                                                                     Date: " +c_date+"\n");
+        BillArea.setText( BillArea.getText()+"Customer Name : "+customerName+" \n"+"Mobile : "+mobile+"\n\n");
+        BillArea.setText( BillArea.getText()+"====================================================================\n");
+        
+        try {
+            //get purchase details of customer from database
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement("select s.productid, s.productName, s.batchno, p.quantity, s.per_pack_rate from stock as s inner join purchasedetails as p on p.productid = s.productid where p.billno = ?"));
+            Agro_Shop_Management.getPs().setInt(1, this.billNo);
+            int i = 1;
+            ResultSet rs = Agro_Shop_Management.getPs().executeQuery();
+            BillArea.append("S.No\t|");
+            BillArea.append("ProductId\t|");
+            BillArea.append("ProductName\t|");
+            BillArea.append("BatchNo\t|");
+            BillArea.append("Quantiy\t|");
+            BillArea.append("Rate");
+            BillArea.append("\n");
+            
+            while(rs.next()){
+                BillArea.append(""+(i++)+"\t:");
+                BillArea.append(rs.getString(1)+"\t:");
+                BillArea.append(rs.getString(2)+"\t:");
+                BillArea.append(rs.getString(3)+"\t:");
+                BillArea.append(rs.getString(4)+"\t:");
+                BillArea.append(rs.getString(5)+"");
+                BillArea.append("\n");
+                
+            }
+           rs = null;
+           Agro_Shop_Management.setPs(null);
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(PrintBill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BillArea.setText( BillArea.getText()+"\nTotalAmount   :  "+totalAmount+"\ttax included\n");
         BillArea.setText( BillArea.getText()+"\nSignature of shopOwner                           Signature Of customer\n");
       
     
@@ -88,8 +106,8 @@ public class PrintBill extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        BillArea.setColumns(20);
-        BillArea.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
+        BillArea.setColumns(22);
+        BillArea.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         BillArea.setRows(5);
         jScrollPane1.setViewportView(BillArea);
 

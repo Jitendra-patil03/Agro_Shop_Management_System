@@ -211,19 +211,15 @@ public class SellDetailsPage extends javax.swing.JFrame {
     private void showRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRecordsActionPerformed
         // TODO add your handling code here:
         try{
-            Agro_Shop_Management obj = new Agro_Shop_Management();
-            obj.Connection();
+            
             DefaultTableModel model = (DefaultTableModel) ShowData.getModel();
             model.setRowCount(0);
-            String sql ="select customerDetails.BillNo, CustomerName, p_date, totalAmount from CustomerDetails,Customerpurchase where CustomerDetails.BillNo = Customerpurchase.BillNo;";
-            ResultSet rs = obj.st.executeQuery(sql);
+            String sql ="select b.BillNo, c.Cust_Name, b.bill_date, b.totalAmount from Customer as c inner join bill as b on c.custid = b.custid;";
+            ResultSet rs = Agro_Shop_Management.getSt().executeQuery(sql);
             while(rs.next()){
-                Object o[]={rs.getInt("BillNo"), rs.getString("customerName"),rs.getString("p_date"), rs.getFloat("totalAmount")};
+                Object o[]={rs.getInt(1), rs.getString(2),rs.getString(3), rs.getFloat(4)};
                 model.addRow(o);
             }
-             obj.st.close();
-             obj.con.close();
-             obj=null;
         } catch(Exception e) {
          System.out.println("Exception 2: "+e);
             JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");
@@ -237,16 +233,14 @@ public class SellDetailsPage extends javax.swing.JFrame {
         try{
             Agro_Shop_Management obj = new Agro_Shop_Management();
             obj.Connection();
-            String sql ="Select sum(totalAmount) from customerPurchase";
-            ResultSet rs = obj.st.executeQuery(sql);
+            String sql ="Select sum(totalAmount) from bill";
+            ResultSet rs = Agro_Shop_Management.getSt().executeQuery(sql);
             double total = 0;
             while(rs.next()){
                 total = rs.getFloat(1);
             }
             CheckTotalAmount.setText(""+total);
-           obj.st.close();
-             obj.con.close();
-             obj=null; 
+             
         } catch(Exception e){
             System.out.println("Exception 2: "+e);
             JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");
@@ -262,16 +256,13 @@ public class SellDetailsPage extends javax.swing.JFrame {
             if(TakeDate.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"enter proper date");
             }
-            String sql ="Select sum(totalAmount) from customerPurchase where p_date='"+date+"'";
-            ResultSet rs = obj.st.executeQuery(sql);
+            String sql ="Select sum(totalAmount) from bill where bill_date='"+date+"'";
+            ResultSet rs = Agro_Shop_Management.getSt().executeQuery(sql);
             double total = 0;
             while(rs.next()){
                 total = rs.getFloat(1);
             }
             DateSellAmount.setText(""+total);
-            obj.st.close();
-             obj.con.close();
-             obj=null;
             
         } catch(HeadlessException | SQLException e){
             System.out.println("Exception 2: "+e);

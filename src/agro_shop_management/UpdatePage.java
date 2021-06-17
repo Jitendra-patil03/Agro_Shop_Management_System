@@ -45,8 +45,10 @@ public class UpdatePage extends javax.swing.JFrame {
         SellerName = new javax.swing.JTextField();
         BatchNo = new javax.swing.JTextField();
         ProductName = new javax.swing.JTextField();
-        Quantity = new javax.swing.JTextField();
+        Rate = new javax.swing.JTextField();
         Update = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        Quantity = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,7 +72,7 @@ public class UpdatePage extends javax.swing.JFrame {
         jLabel4.setBackground(new java.awt.Color(255, 153, 153));
         jLabel4.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(153, 0, 51));
-        jLabel4.setText("Seller Name");
+        jLabel4.setText("Dealer Name");
 
         SellerName.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         SellerName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -81,11 +83,11 @@ public class UpdatePage extends javax.swing.JFrame {
         ProductName.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         ProductName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        Quantity.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        Quantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Quantity.addActionListener(new java.awt.event.ActionListener() {
+        Rate.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        Rate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Rate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                QuantityActionPerformed(evt);
+                RateActionPerformed(evt);
             }
         });
 
@@ -98,6 +100,18 @@ public class UpdatePage extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel5.setText("Rate");
+
+        Quantity.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        Quantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Quantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuantityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -107,20 +121,20 @@ public class UpdatePage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(58, 58, 58)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(BatchNo)
-                                    .addComponent(SellerName)
-                                    .addComponent(ProductName, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                    .addComponent(Quantity)))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(BatchNo)
+                            .addComponent(SellerName)
+                            .addComponent(ProductName)
+                            .addComponent(Quantity)
+                            .addComponent(Rate, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
+                        .addGap(178, 178, 178)
                         .addComponent(Update, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(248, Short.MAX_VALUE))
         );
@@ -131,19 +145,23 @@ public class UpdatePage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ProductName, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SellerName, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BatchNo, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addGap(43, 43, 43)
+                    .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Rate, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
                 .addComponent(Update, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -162,13 +180,13 @@ public class UpdatePage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void QuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuantityActionPerformed
+    private void RateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_QuantityActionPerformed
+    }//GEN-LAST:event_RateActionPerformed
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
         // TODO add your handling code here:
-        if(ProductName.getText().equals("")||SellerName.getText().equals("")||BatchNo.getText().equals("")||Quantity.getText().equals("")){
+        if(ProductName.getText().equals("")||SellerName.getText().equals("")||BatchNo.getText().equals("")||Rate.getText().equals("")){
             JOptionPane.showMessageDialog(null,"plz enter all details properly");
             return;
         }
@@ -179,22 +197,24 @@ public class UpdatePage extends javax.swing.JFrame {
         String s_name = SellerName.getText();
         String b_no = BatchNo.getText();
         int q = Integer.parseInt(Quantity.getText());
+        String p_rate = Rate.getText(); 
         String c_date = ""+new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
-        int bool = obj.st.executeUpdate("insert into Stock values('"+p_name+"','"+s_name+"','"+b_no+"','"+q+"','"+c_date+"')");
+        int bool = Agro_Shop_Management.getSt().executeUpdate("insert into Stock(ProductName, dealer_name, batchNo, quantity, p_date, per_pack_rate) values('"+p_name+"','"+s_name+"','"+b_no+"','"+q+"','"+c_date+"','"+p_rate+"')");
         if(bool>0){
             JOptionPane.showMessageDialog(null,"new stock inserted");
         }
         else {
             JOptionPane.showMessageDialog(null,"Stock not inserted");
         }
-         obj.st.close();
-             obj.con.close();
-             obj=null;
         } catch(NumberFormatException | SQLException | HeadlessException e){
             System.out.println("Exception 2: "+e);
             JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");
         }
     }//GEN-LAST:event_UpdateActionPerformed
+
+    private void QuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_QuantityActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,12 +228,14 @@ private void seticon() {
     private javax.swing.JTextField BatchNo;
     private javax.swing.JTextField ProductName;
     private javax.swing.JTextField Quantity;
+    private javax.swing.JTextField Rate;
     private javax.swing.JTextField SellerName;
     private javax.swing.JButton Update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

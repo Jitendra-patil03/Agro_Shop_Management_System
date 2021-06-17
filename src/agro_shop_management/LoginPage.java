@@ -154,6 +154,11 @@ public class LoginPage extends javax.swing.JFrame {
                 SignInActionPerformed(evt);
             }
         });
+        SignIn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SignInKeyPressed(evt);
+            }
+        });
         jPanel1.add(SignIn);
         SignIn.setBounds(110, 330, 77, 31);
 
@@ -221,32 +226,68 @@ public class LoginPage extends javax.swing.JFrame {
         }
            
         try {
-            Agro_Shop_Management  obj1 = new Agro_Shop_Management(); // this obj created for jdbc connection
-            obj1.Connection();
-            String query = "select UserName, Password, userType from UserDetails where UserName = ? or Password = ?";
-            obj1.ps = obj1.con.prepareStatement(query);
-            obj1.ps.setString(1,user);
-            obj1.ps.setString(2, pass);
-            ResultSet rs = obj1.ps.executeQuery();
+             // this obj created for jdbc connection
+            String query = "select UserName, Password, userType from UserDetails where UserName = ? And Password = ?";
+            Agro_Shop_Management.Connection();
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement(query));
+            PreparedStatement ps = Agro_Shop_Management.getPs();
+            ps.setString(1,user);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
            // System.out.println("Query done");
             
             if(rs.next()){
                 HomePage h = new HomePage();
-                Agro_Shop_Management.userType = rs.getString("userType");//to identify the type of logged in user
+                Agro_Shop_Management.setUserType(rs.getString("userType"));//to identify the type of logged in user
                         //System.out.println("user = "+Agro_Shop_Management.userType);
                 h.setVisible(true);
                 this.dispose(); 
             } else
                 JOptionPane.showMessageDialog(null,"incorrect userName or Password");
-            obj1.st.close();
-            obj1.con.close();
-            obj1.ps.close();
-            obj1=null;
+            ps.close();
+            ps = null;
         } catch(SQLException | HeadlessException e){
            // System.out.println("Exception 2: "+e);
             JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");
         }
     }//GEN-LAST:event_SignInActionPerformed
+
+    private void SignInKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SignInKeyPressed
+        // TODO add your handling code here:
+        final String user = UserName.getText();
+       final String pass = Password.getText();
+       // below line use for validation of project
+       if(!user.matches("^[a-zA-Z\\\\s]*$")){    // regular expression are use for validation
+         JOptionPane.showMessageDialog(null, " user Name contain only alphabets");
+           return;
+        }
+           
+        try {
+             // this obj created for jdbc connection
+            String query = "select UserName, Password, userType from UserDetails where UserName = ? And Password = ?";
+            Agro_Shop_Management.Connection();
+            Agro_Shop_Management.setPs(Agro_Shop_Management.getCon().prepareStatement(query));
+            PreparedStatement ps = Agro_Shop_Management.getPs();
+            ps.setString(1,user);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
+           // System.out.println("Query done");
+            
+            if(rs.next()){
+                HomePage h = new HomePage();
+                Agro_Shop_Management.setUserType(rs.getString("userType"));//to identify the type of logged in user
+                        //System.out.println("user = "+Agro_Shop_Management.userType);
+                h.setVisible(true);
+                this.dispose(); 
+            } else
+                JOptionPane.showMessageDialog(null,"incorrect userName or Password");
+            ps.close();
+            ps = null;
+        } catch(SQLException | HeadlessException e){
+           // System.out.println("Exception 2: "+e);
+            JOptionPane.showMessageDialog(null,"Exception in program plz contact developer");
+        }
+    }//GEN-LAST:event_SignInKeyPressed
 
     /**
      * @param args the command line arguments
